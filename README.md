@@ -194,22 +194,22 @@ sequenceDiagram
     Order-->>Customer: 201 Created (Sipariş Alındı)
 
     %% 2. CDC & Stok Kontrolü
-    Order-)-Debezium: WAL CDC Okuma
-    Debezium-)-Kafka: order.events [ORDER_CREATED]
-    Kafka-)-Item: Tüket (item-group)
-    Kafka-)-Notif: Tüket (notification-group)
+    Order-->>Debezium: WAL CDC Okuma
+    Debezium-->>Kafka: order.events [ORDER_CREATED]
+    Kafka->>Item: Tüket (item-group)
+    Kafka->>Notif: Tüket (notification-group)
     Notif-->>Customer: Sipariş Alındı E-postası Gönder (Mailpit)
     
     alt Stok Yeterli
         Item->>Item: Stokları Rezerve Et + outbox(STOCK_RESERVED_FOR_ORDER)
-        Item-)-Debezium: WAL CDC Okuma
-        Debezium-)-Kafka: item.events [STOCK_RESERVED_FOR_ORDER]
-        Kafka-)-Order: Tüket -> Sipariş Durumunu STOCK_CONFIRMED Yap
+        Item-->>Debezium: WAL CDC Okuma
+        Debezium-->>Kafka: item.events [STOCK_RESERVED_FOR_ORDER]
+        Kafka->>Order: Tüket -> Sipariş Durumunu STOCK_CONFIRMED Yap
     else Stok Yetersiz
         Item->>Item: outbox(STOCK_RESERVATION_FAILED)
-        Item-)-Debezium: WAL CDC Okuma
-        Debezium-)-Kafka: item.events [STOCK_RESERVATION_FAILED]
-        Kafka-)-Order: Tüket -> Siparişi CANCELLED Yap
+        Item-->>Debezium: WAL CDC Okuma
+        Debezium-->>Kafka: item.events [STOCK_RESERVATION_FAILED]
+        Kafka->>Order: Tüket -> Siparişi CANCELLED Yap
     end
 
     %% 3. Ödeme Süreci
@@ -222,9 +222,9 @@ sequenceDiagram
     Payment-->>Customer: 200 OK (Ödeme Başarılı)
 
     %% 4. Ödeme Sonucu & Sipariş Güncelleme
-    Payment-)-Debezium: WAL CDC Okuma
-    Debezium-)-Kafka: payment.events [PAYMENT_COMPLETED]
-    Kafka-)-Order: Tüket -> Sipariş Durumunu PAID Yap
+    Payment-->>Debezium: WAL CDC Okuma
+    Debezium-->>Kafka: payment.events [PAYMENT_COMPLETED]
+    Kafka->>Order: Tüket -> Sipariş Durumunu PAID Yap
 
     %% 5. Teslimat Süreci
     Note over Order: Yönetici Paneli: PAID -> SHIPPED -> DELIVERED / COMPLETED

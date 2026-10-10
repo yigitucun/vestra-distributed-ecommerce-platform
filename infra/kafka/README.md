@@ -36,7 +36,7 @@ KAFKA_SASL_JAAS_CONFIG=org.apache.kafka.common.security.scram.ScramLoginModule r
 
 ## 3. KRaft Authorizer ve Topic ACL Yetkileri
 
-Kafka broker'da ACL'leri zorunlu kılmak için `infra/docker-compose.infra.yml` içinde:
+Kafka broker'da ACL'leri zorunlu kılmak için `infra/docker-compose.yml` içinde:
 ```yaml
 KAFKA_AUTHORIZER_CLASS_NAME: org.apache.kafka.metadata.authorizer.StandardAuthorizer
 KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: 'false'

@@ -389,7 +389,7 @@ Tüm mock kullanıcılar için varsayılan şifre: **`Password123!`**
 
 ## 🐳 Altyapı ve Docker Servisleri
 
-Tüm altyapı bileşenleri [infra/docker-compose.infra.yml](file:///C:/Users/Admin/Desktop/workspaces/vestra/infra/docker-compose.infra.yml) dosyasında tanımlıdır:
+Tüm altyapı bileşenleri [infra/docker-compose.yml](file:///C:/Users/Admin/Desktop/workspaces/vestra/infra/docker-compose.yml) dosyasında tanımlıdır:
 
 | Servis Adı | Konteyner Adı | Host Portu | Konteyner İçi | Açıklama |
 | :--- | :--- | :---: | :---: | :--- |
@@ -423,7 +423,7 @@ cd infra
 docker network create vestra-network
 
 # Konteynerleri başlatın (Debezium connector'ları otomatik kaydedilecektir):
-docker compose -f docker-compose.infra.yml -f docker-compose.override.yml up -d
+docker compose up -d
 ```
 
 > [!NOTE]
@@ -505,8 +505,7 @@ vestra/
 │   ├── debezium/            # Otomatik connector kayıt scripti ve connector tanımları
 │   ├── init-scripts/        # 5 veritabanını oluşturan init-databases.sql
 │   ├── kafka/               # SASL/SCRAM ve Topic ACL yapılandırma scriptleri
-│   ├── docker-compose.infra.yml
-│   └── docker-compose.override.yml
+│   └── docker-compose.yml   # Tekilleştirilmiş tümleşik altyapı compose tanımı
 ├── web/                     # Next.js 16, React 19, Tailwind CSS v4 Frontend
 │   ├── app/                 # App Router (auth, dashboard/orders, dashboard/products)
 │   ├── components/          # UI bileşenleri ve Dialog'lar

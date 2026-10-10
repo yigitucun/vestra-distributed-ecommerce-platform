@@ -1,7 +1,7 @@
 name: vestra
 
 include:
-  - infra/docker-compose.infra.yml
+  - infra/docker-compose.yml
 
 networks:
   vestra-network:
